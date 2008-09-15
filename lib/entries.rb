@@ -12,7 +12,6 @@ class Entries
   end
 
   def to_s(sort=:size)
-    sort = :size unless [:size, :sum, :median, :stddev, :avg].include? sort
     sorted = entries.select{|k,v| v.size > 10}.map {|k,v| v}.sort {|a,b| b.send(sort) <=> a.send(sort) }
     head = ('%6s ' + '%6s '*5 + '%9s %s') % %w[Hits Low Median Avg Stddev High Sum Url]
     head << "\n" << sorted.join("\n")
