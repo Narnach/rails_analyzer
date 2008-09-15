@@ -36,7 +36,7 @@ class UrlHits < Array
     mean = sum / size.to_f
     diffs = map {|n| n - mean }
     sqdiffs = diffs.map {|n| n * n }
-    sqsum = sqdiffs.sum
+    sqsum = sqdiffs.inject(0.0) {|s, n| s+n}
     sqmean = sqsum / size.to_f
     Math::sqrt(sqmean)
   end
