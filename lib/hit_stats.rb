@@ -21,15 +21,12 @@ class HitStats
   end
 
   def save_reports
-    puts "------\nResults\n-----"
-    puts
     File.open("log_hits.txt","wb") {|file| file.puts PrettyLog.to_s(:size) }
     File.open("log_avg.txt","wb") {|file| file.puts PrettyLog.to_s(:avg) }
     File.open("log_sum.txt","wb") {|file| file.puts PrettyLog.to_s(:sum) }
     File.open("log_median.txt","wb") {|file| file.puts PrettyLog.to_s(:median) }
     File.open("log_stddev.txt","wb") {|file| file.puts PrettyLog.to_s(:stddev) }
     File.open('log_sum_with_params.txt', 'wb') {|file| file.puts ParamLog.to_s(:sum)}
-    puts "Pretty log can be found in log_*.txt"
   end
 
   protected

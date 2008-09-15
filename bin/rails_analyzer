@@ -1,25 +1,5 @@
 #!/usr/bin/env ruby
-require 'uri'
-require 'rubygems'
-require 'activesupport'
 require 'rails_analyzer'
-require 'time_stats'
-require 'hit_stats'
 
-puts
-puts "Rails log analyzer"
-puts "Analyzes a number of rails log files and compiles an overview list."
-puts
-logs=[]
-if $*.size==0
-  logs=["log/production.log"]
-else
-  logs=$*
-end
-logs.each {|l| puts "Using log: #{l}"}
-puts
-
-TimeStats.generate(logs)
-puts 'Wrote time-based logs'
-
-HitStats.generate(logs)
+ra = RailsAnalyzer.new(ARGV)
+ra.generate_reports
