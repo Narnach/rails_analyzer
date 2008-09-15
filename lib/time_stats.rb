@@ -31,26 +31,17 @@ class TimeStats
         end
       end
     end
-    File.open('log_times_hour_relative.txt','wb') do |f|
-      min_hits = nil
-      per_hour.each do |hour, hits|
-        hit_count = hits.size
-        min_hits ||= hit_count
-        min_hits = hit_count if hit_count < min_hits
-      end
-      per_hour.each do |hour, hits|
-        f.puts '%s: %s' % [hour, hits.size - min_hits]
-      end
-    end
-    File.open('log_times_ten_min_relative.txt','wb') do |f|
-      min_hits = nil
-      per_ten_min.each do |ten_min, hits|
-        hit_count = hits.size
-        min_hits ||= hit_count
-        min_hits = hit_count if hit_count < min_hits
-      end
-      per_ten_min.each do |ten_min, hits|
-        f.puts '%s: %s' % [ten_min, hits.size - min_hits]
+    %w[hour ten_min].each do |timeframe|
+      File.open('log_times_%s_relative.txt' % timeframe,'wb') do |f|
+        min_hits = nil
+        self.send('per_%s' % timeframe).each do |frame, hits|
+          hit_count = hits.size
+          min_hits ||= hit_count
+          min_hits = hit_count if hit_count < min_hits
+        end
+        self.send('per_%s' % timeframe).each do |frame, hits|
+          f.puts '%s: %s' % [frame, hits.size - min_hits]
+        end
       end
     end
   end
