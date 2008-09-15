@@ -1,12 +1,12 @@
-require 'pretty_log'
 require 'entries'
 
 class HitStats
-  attr_accessor :logs, :hits_with_query
+  attr_accessor :logs, :hits_with_query, :hits_without_query
 
   def initialize(logs)
     @logs = logs
     @hits_with_query = Entries.new
+    @hits_without_query = Entries.new
   end
 
   def self.generate(logs)
@@ -22,11 +22,11 @@ class HitStats
   end
 
   def save_reports
-    File.open("log_hits.txt","wb") {|file| file.puts PrettyLog.to_s(:size) }
-    File.open("log_avg.txt","wb") {|file| file.puts PrettyLog.to_s(:avg) }
-    File.open("log_sum.txt","wb") {|file| file.puts PrettyLog.to_s(:sum) }
-    File.open("log_median.txt","wb") {|file| file.puts PrettyLog.to_s(:median) }
-    File.open("log_stddev.txt","wb") {|file| file.puts PrettyLog.to_s(:stddev) }
+    File.open("log_hits.txt","wb") {|file| file.puts hits_without_query.to_s(:size) }
+    File.open("log_avg.txt","wb") {|file| file.puts hits_without_query.to_s(:avg) }
+    File.open("log_sum.txt","wb") {|file| file.puts hits_without_query.to_s(:sum) }
+    File.open("log_median.txt","wb") {|file| file.puts hits_without_query.to_s(:median) }
+    File.open("log_stddev.txt","wb") {|file| file.puts hits_without_query.to_s(:stddev) }
     File.open('log_sum_with_params.txt', 'wb') {|file| file.puts hits_with_query.to_s(:sum)}
   end
 
@@ -46,7 +46,7 @@ class HitStats
       time = $1.to_f
       hits_with_query.add_hit(uri.to_s,time)
       uri.query=nil
-      PrettyLog.add_hit(uri.to_s,time)
+      hits_without_query.add_hit(uri.to_s,time)
     end
   end
 end
