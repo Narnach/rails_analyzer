@@ -1,3 +1,6 @@
+require 'rubygems'
+require 'activesupport'
+
 class TimeStats
   attr_accessor :logs, :times
 

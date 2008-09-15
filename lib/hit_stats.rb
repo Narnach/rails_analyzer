@@ -1,4 +1,5 @@
 require 'entries'
+require 'uri'
 
 class HitStats
   attr_accessor :logs, :hits_with_query, :hits_without_query

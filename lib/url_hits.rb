@@ -1,3 +1,6 @@
+require 'float_ext'
+require 'array_ext'
+
 class UrlHits
   attr_reader :url, :hit_times
   

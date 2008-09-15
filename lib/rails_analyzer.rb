@@ -1,10 +1,3 @@
-require 'rubygems'
-require 'activesupport'
-require 'uri'
-require 'float_ext'
-require 'array_ext'
-require 'pretty_log'
-require 'param_log'
 require 'time_stats'
 require 'hit_stats'
 
