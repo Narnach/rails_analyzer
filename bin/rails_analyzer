@@ -3,7 +3,7 @@ require 'uri'
 require 'rubygems'
 require 'activesupport'
 require 'rails_analyzer'
-#require 'math'
+
 puts
 puts "Rails log analyzer"
 puts "Analyzes a number of rails log files and compiles an overview list."
