@@ -1,0 +1,77 @@
+== Minitest
+Minitest is a simple autotester intended to be used with rSpec, Test::Unit and rCov.
+It can be used with 'plain' Ruby projects and Ruby on Rails.
+
+== Recent changes
+
+=== Version 0.3.2
+* Bugfixes:
+  * Minitest will not run non-existent specs
+  * Rcov will not run non-existent specs
+* Documentation changes:
+  * Readme examples match current functionality
+  * Readme has a todo section
+  * Minitest documentation updated
+  * DirMonitor documentation updated
+* Code cleanups:
+  * Gemspec is a lot more readable
+  * Numerous refactorings in Minitest and DirMonitor
+  * Set extension has its own file
+
+=== Version 0.3.1
+Minitest gained support to test Test::Unit tests and RSpec specs at the same time.
+
+=== Version 0.3.0
+Minitest switched to a new file monitoring backend: DirMonitor.
+This makes it possible to track new files as they are created, without needing to restart minitest.
+The 'recent' feature was removed because DirMonitor does not (yet?) have a way to only yield files
+newer than some timestamp. This feature is likely to re-appear in a nearby future.
+
+== Installation
+=== From gem
+Use gem to install minitest. The gem is located on github.
+  sudo gem install Narnach-minitest -s http://gems.github.com
+=== From git
+From the project root, use rake to install:
+  git clone git://github.com/Narnach/minitest.git
+  cd minitest
+  rake install
+This will build the gem and install it for you.
+
+== Usage
+Minitest has the following command line options:
+profile::  Force rspec output format to 'profile', combined with coloured output and unified diffs.
+drb:: Use a spec server to execute specs, speeding up their execution.
+
+== Examples
+When you start working on a codebase, it makes sense to run all specs:
+  minitest
+When you want to see which specs are slow and could use optimizing:
+  minitest profile
+You can also combine options:
+  minitest drb profile
+
+== Todo / ideas / plans
+* Figure out how to get RCov to run specs and tests at the same time and implement it.
+* Add 'recent' option (was removed in 0.3.0).
+* Cleanup Minitest class / rewrite in a clean and testable way.
+
+== Minitest cleanup
+
+The Minitest class started as a simple script and thus was not designed to focus on one responsibility.
+Right now it tries to do too much:
+* Infinite loop
+* Execute RSpec for changed files
+* Execute test/unit for changed files
+* Execute RCov when terminating the loop
+Instead of delegating these tasks, it actually performs them.
+
+Adding three classes is a good first step to reduce complexity.
+Each 'executable' gets its own class: RSpec, RCov and test/unit.
+When that is done, the code in Minitest should be reduced to looping and delegating.
+
+== About
+Author:: Wes 'Narnach' Oldenbeuving (narnach@gmail.com)
+Website:: http://www.github.com/Narnach/minitest
+Copyright:: Copyright (c) 2008 Wes Oldenbeuving
+License:: MIT license. See MIT-LICENSE (in the gem directory) for license details.
