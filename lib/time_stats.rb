@@ -48,33 +48,28 @@ class TimeStats
   end
 
   def per_day_hour
-    times.group_by do |t|
-      date, time = t.split(" ")
-      hour, min, sec = time.split(":")
-      '%s %sh' % [date, hour]
-    end
+    group_times_by {|d, h, m, s| '%s %sh' % [d, h]}
   end
 
   def per_day
-    times.group_by do |t|
-      date, time = t.split(" ")
-      date
-    end
+    group_times_by {|d, h, m, s| d}
   end
 
   def per_hour
-    times.group_by do |t|
-      date, time = t.split(" ")
-      hour, min, sec = time.split(":")
-      hour
-    end
+    group_times_by {|d, h, m, s| h}
   end
 
   def per_ten_min
+    group_times_by {|d, h, m, s| '%sh%s0' % [h, m[0,1]]}
+  end
+
+  # Group times by date/time-related data.
+  # Sorts by the yield return value
+  def group_times_by(&block) # :yields: date, hour, min, sec
     times.group_by do |t|
       date, time = t.split(" ")
       hour, min, sec = time.split(":")
-      '%sh%s0' % [hour, min[0,1]]
+      block.call(date, hour, min, sec)
     end
   end
 end
