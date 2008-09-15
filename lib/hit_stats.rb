@@ -1,11 +1,12 @@
-require 'param_log'
 require 'pretty_log'
+require 'entries'
 
 class HitStats
-  attr_accessor :logs
+  attr_accessor :logs, :hits_with_query
 
   def initialize(logs)
     @logs = logs
+    @hits_with_query = Entries.new
   end
 
   def self.generate(logs)
@@ -26,7 +27,7 @@ class HitStats
     File.open("log_sum.txt","wb") {|file| file.puts PrettyLog.to_s(:sum) }
     File.open("log_median.txt","wb") {|file| file.puts PrettyLog.to_s(:median) }
     File.open("log_stddev.txt","wb") {|file| file.puts PrettyLog.to_s(:stddev) }
-    File.open('log_sum_with_params.txt', 'wb') {|file| file.puts ParamLog.to_s(:sum)}
+    File.open('log_sum_with_params.txt', 'wb') {|file| file.puts hits_with_query.to_s(:sum)}
   end
 
   protected
@@ -43,7 +44,7 @@ class HitStats
         puts "Could not extract time from line: #{line}"
       end
       time = $1.to_f
-      ParamLog.add_hit(uri.to_s,time)
+      hits_with_query.add_hit(uri.to_s,time)
       uri.query=nil
       PrettyLog.add_hit(uri.to_s,time)
     end
