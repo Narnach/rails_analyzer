@@ -12,8 +12,41 @@ module ArrayExt
       grouped_results
     end
   end
+
+  module Stats
+    def avg
+      sum / size.to_f
+    end
+
+    def median
+      return 0 if size == 0
+      if size%2==0
+        # Average two middle values
+        # [1,2,3,4,5,6].median #=> 3.5
+        (self[size / 2] + self[size / 2 - 1]) / 2
+      else
+        # Use middle value
+        # [1,2,3,4,5].median #=> 3
+        self[size / 2]
+      end
+    end
+
+    def stddev
+      mean = sum / size.to_f
+      diffs = map {|n| n - mean }
+      sqdiffs = diffs.map {|n| n * n }
+      sqsum = sqdiffs.inject(0.0) {|s, n| s+n}
+      sqmean = sqsum / size.to_f
+      Math::sqrt(sqmean)
+    end
+
+    def sum
+      inject(0.0) {|s,n| s+n }
+    end
+  end
 end
 
 class Array
   include ArrayExt::GroupBy
+  include ArrayExt::Stats
 end
