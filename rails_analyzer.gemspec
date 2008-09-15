@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   # Files
   root_files     = %w[MIT-LICENSE README.rdoc Rakefile rails_analyzer.gemspec]
   bin_files      = %w[rails_analyzer]
-  lib_files      = %w[rails_analyzer float_ext array_ext pretty_log]
+  lib_files      = %w[rails_analyzer float_ext array_ext pretty_log param_log]
   test_files     = %w[]
   spec_files     = %w[rails_analyzer]
   other_files    = %w[spec/spec.opts spec/spec_helper.rb]
