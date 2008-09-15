@@ -23,12 +23,10 @@ class HitStats
   end
 
   def save_reports
-    File.open("log_hits.txt","wb") {|file| file.puts hits_without_query.to_s(:size) }
-    File.open("log_avg.txt","wb") {|file| file.puts hits_without_query.to_s(:avg) }
-    File.open("log_sum.txt","wb") {|file| file.puts hits_without_query.to_s(:sum) }
-    File.open("log_median.txt","wb") {|file| file.puts hits_without_query.to_s(:median) }
-    File.open("log_stddev.txt","wb") {|file| file.puts hits_without_query.to_s(:stddev) }
-    File.open('log_sum_with_params.txt', 'wb') {|file| file.puts hits_with_query.to_s(:sum)}
+    [:sum, :avg, :size, :median, :stddev].each do |sort_order|
+      File.open("log_%s.txt" % sort_order,"wb") {|file| file.puts hits_without_query.to_s(sort_order) }
+      File.open('log_%s_with_params.txt' % sort_order, 'wb') {|file| file.puts hits_with_query.to_s(sort_order)}
+    end
   end
 
   protected
