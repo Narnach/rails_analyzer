@@ -4,6 +4,7 @@ require 'rubygems'
 require 'activesupport'
 require 'rails_analyzer'
 require 'time_stats'
+require 'hit_stats'
 
 puts
 puts "Rails log analyzer"
@@ -21,30 +22,4 @@ puts
 TimeStats.generate(logs)
 puts 'Wrote time-based logs'
 
-logs.each do |log|
-  results = `grep "Completed" #{log}`
-  results.each do |line|
-    unless line =~ /\[(.*?)\]/
-      puts "Failed to parse: #{line}"
-      next
-    end
-    next unless uri=URI.parse($1) rescue nil
-    unless line =~ /Completed\ in\ ([0-9]+\.[0-9]+)/
-      puts "Could not extract time from line: #{line}"
-    end
-    time = $1.to_f
-    ParamLog.add_hit(uri.to_s,time)
-    uri.query=nil
-    PrettyLog.add_hit(uri.to_s,time)
-  end
-end
-
-puts "------\nResults\n-----"
-puts
-File.open("log_hits.txt","wb") {|file| file.puts PrettyLog.to_s(:size) }
-File.open("log_avg.txt","wb") {|file| file.puts PrettyLog.to_s(:avg) }
-File.open("log_sum.txt","wb") {|file| file.puts PrettyLog.to_s(:sum) }
-File.open("log_median.txt","wb") {|file| file.puts PrettyLog.to_s(:median) }
-File.open("log_stddev.txt","wb") {|file| file.puts PrettyLog.to_s(:stddev) }
-File.open('log_sum_with_params.txt', 'wb') {|file| file.puts ParamLog.to_s(:sum)}
-puts "Pretty log can be found in log_*.txt"
+HitStats.generate(logs)
