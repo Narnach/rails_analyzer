@@ -24,19 +24,11 @@ class TimeStats
   end
 
   def save_reports
-    File.open('log_times_day_hour.txt','wb') do |f|
-      per_day_hour.each do |day_hour, hits|
-        f.puts '%s: %s' % [day_hour, hits.size]
-      end
-    end
-    File.open('log_times_day.txt','wb') do |f|
-      per_day.each do |day, hits|
-        f.puts '%s: %s' % [day, hits.size]
-      end
-    end
-    File.open('log_times_hour.txt','wb') do |f|
-      per_hour.each do |hour, hits|
-        f.puts '%s: %s' % [hour, hits.size]
+    %w[day hour day_hour].each do |timeframe|
+      File.open('log_times_%s.txt' % timeframe,'wb') do |f|
+        self.send('per_%s' % timeframe).each do |frame, hits|
+          f.puts '%s: %s' % [frame, hits.size]
+        end
       end
     end
     File.open('log_times_hour_relative.txt','wb') do |f|
