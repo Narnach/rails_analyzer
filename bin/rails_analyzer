@@ -85,20 +85,18 @@ puts 'Wrote time-based logs'
 logs.each do |log|
   results = `grep "Completed" #{log}`
   results.each do |line|
-    if line =~ /\[(.*?)\]/
-      if uri=URI.parse($1) rescue nil
-        if line =~ /Completed\ in\ ([0-9]+\.[0-9]+)/
-          time = $1.to_f
-          ParamLog.add_hit(uri.to_s,time)
-          uri.query=nil
-          PrettyLog.add_hit(uri.to_s,time)
-        else
-          puts "Could not extract time from line: #{line}"
-        end
-      end
-    else
+    unless line =~ /\[(.*?)\]/
       puts "Failed to parse: #{line}"
+      next
     end
+    next unless uri=URI.parse($1) rescue nil
+    unless line =~ /Completed\ in\ ([0-9]+\.[0-9]+)/
+      puts "Could not extract time from line: #{line}"
+    end
+    time = $1.to_f
+    ParamLog.add_hit(uri.to_s,time)
+    uri.query=nil
+    PrettyLog.add_hit(uri.to_s,time)
   end
 end
 
