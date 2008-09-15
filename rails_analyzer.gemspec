@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
   bin_files      = %w[rails_analyzer]
   lib_files      = %w[rails_analyzer array_ext float_ext time_stats hit_stats entries url_hits]
   test_files     = %w[]
-  spec_files     = %w[rails_analyzer]
+  spec_files     = %w[rails_analyzer entries url_hits]
   other_files    = %w[spec/spec.opts spec/spec_helper.rb]
   s.bindir       = "bin"
   s.require_path = "lib"
