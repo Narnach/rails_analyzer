@@ -25,29 +25,24 @@ class TimeStats
 
   def save_reports
     %w[day hour day_hour].each do |timeframe|
-      save_hits_report(timeframe)
+      filename = 'log_times_%s.txt' % timeframe
+      save_hits_report(filename, timeframe)
     end
     %w[hour ten_min].each do |timeframe|
-      File.open('log_times_%s_relative.txt' % timeframe,'wb') do |f|
-        min_hits = nil
-        self.send('per_%s' % timeframe).each do |frame, hits|
-          hit_count = hits.size
-          min_hits ||= hit_count
-          min_hits = hit_count if hit_count < min_hits
-        end
-        self.send('per_%s' % timeframe).each do |frame, hits|
-          f.puts '%s: %s' % [frame, hits.size - min_hits]
-        end
-      end
+      hits = self.send('per_%s' % timeframe).map {|frame, hits| hits.size}
+      offset = hits.min || 0
+      filename = 'log_times_%s_relative.txt' % timeframe
+      save_hits_report(filename, timeframe, offset)
     end
   end
 
   protected
   
-  def save_hits_report(timeframe)
-    File.open('log_times_%s.txt' % timeframe,'wb') do |f|
-      self.send('per_%s' % timeframe).each do |frame, hits|
-        f.puts '%s: %s' % [frame, hits.size]
+  def save_hits_report(filename, timeframe, offset = 0)
+    collection = self.send('per_%s' % timeframe)
+    File.open(filename,'wb') do |f|
+      collection.each do |frame, hits|
+        f.puts '%s: %s' % [frame, hits.size - offset]
       end
     end
   end
