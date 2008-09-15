@@ -1,5 +1,4 @@
-require 'rubygems'
-require 'activesupport'
+require 'array_ext'
 
 class TimeStats
   attr_accessor :logs, :times
@@ -65,11 +64,16 @@ class TimeStats
 
   # Group times by date/time-related data.
   # Sorts by the yield return value
+  # Returns an Array of two-element Arrays:
+  # - The first element is the sort key
+  # - The second element is the hit times for that key
+  # The return value is sorted by key.
   def group_times_by(&block) # :yields: date, hour, min, sec
-    times.group_by do |t|
+    grouped_times = times.group_by do |t|
       date, time = t.split(" ")
       hour, min, sec = time.split(":")
       block.call(date, hour, min, sec)
     end
+    grouped_times.to_a.sort {|a,b| a.first <=> b.first}
   end
 end
