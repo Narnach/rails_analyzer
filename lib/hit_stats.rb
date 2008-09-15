@@ -34,18 +34,23 @@ class HitStats
   def parse_log(log)
     results = `grep "Completed" #{log}`
     results.each do |line|
-      unless line =~ /\[(.*?)\]/
-        puts "Failed to parse: #{line}"
-        next
-      end
-      next unless uri=URI.parse($1) rescue nil
-      unless line =~ /Completed\ in\ ([0-9]+\.[0-9]+)/
-        puts "Could not extract time from line: #{line}"
-      end
-      time = $1.to_f
-      hits_with_query.add_hit(uri.to_s,time)
-      uri.query=nil
-      hits_without_query.add_hit(uri.to_s,time)
+      parse_line(line)
     end
+  end
+  
+  def parse_line(line)
+    unless line =~ /\[(.*?)\]/
+      puts "Failed to parse: #{line}"
+      return
+    end
+    return unless uri=URI.parse($1) rescue nil
+    unless line =~ /Completed\ in\ ([0-9]+\.[0-9]+)/
+      puts "Could not extract time from line: #{line}"
+      return
+    end
+    time = $1.to_f
+    hits_with_query.add_hit(uri.to_s,time)
+    uri.query=nil
+    hits_without_query.add_hit(uri.to_s,time)
   end
 end
