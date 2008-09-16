@@ -30,7 +30,12 @@ describe ArrayExt::Stats do
   end
 
   describe '#median' do
-    it 'should return the median of all elements'
+    it 'should return the median of all elements' do
+      [1,2,3].median.should == 2
+      [1,3,4,5,5].median.should == 4
+      [1,2,3,4].median.should == 2.5
+      [1.1,2.3].median.should == 1.7
+    end
   end
 
   describe '#stddev' do

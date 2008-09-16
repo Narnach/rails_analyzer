@@ -18,16 +18,17 @@ module ArrayExt
       sum / size.to_f
     end
 
+    # Returns the median as a Float.
     def median
       return 0 if size == 0
       if size%2==0
         # Average two middle values
         # [1,2,3,4,5,6].median #=> 3.5
-        (self[size / 2] + self[size / 2 - 1]) / 2
+        (self[size / 2] + self[size / 2 - 1]) / 2.0
       else
         # Use middle value
         # [1,2,3,4,5].median #=> 3
-        self[size / 2]
+        self[size / 2].to_f
       end
     end
 
