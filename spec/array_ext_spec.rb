@@ -23,7 +23,10 @@ describe ArrayExt::Stats do
   end
 
   describe '#avg' do
-    it 'should return the average of all elements'
+    it 'should return the average of all elements' do
+      [1,2,3].avg.should == 2
+      [1,2].avg.should == 1.5
+    end
   end
 
   describe '#median' do
@@ -35,6 +38,9 @@ describe ArrayExt::Stats do
   end
 
   describe '#sum' do
-    it 'should return the sum of all elements'
+    it 'should return the sum of all elements' do
+      [1,2,3].sum.should == 6
+      [1.1,2].sum.should == 3.1
+    end
   end
 end
