@@ -12,6 +12,10 @@ Both engines produce .txt files as their only output.
 
 == Recent changes
 
+=== Version 0.2.2
+Added reports for slowest and fastest requests.
+Documentation updates.
+
 === Version 0.2.1
 Bugfixes:
 * HitStats reports were not generated. They are working again.

@@ -3,7 +3,7 @@ Gem::Specification.new do |s|
   s.name         = 'rails_analyzer'
   s.summary      = "RailsAnalyzer generates reports about requests processed by a Ruby on Rails server."
   s.description  = "RailsAnalyzer generates reports about requests processed by a Ruby on Rails server."
-  s.version      = '0.2.1'
+  s.version      = '0.2.2'
   s.date         = '2008-09-15'
   s.platform     = Gem::Platform::RUBY
   s.authors      = ["Wes Oldenbeuving"]
