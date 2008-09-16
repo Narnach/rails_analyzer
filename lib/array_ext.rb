@@ -33,12 +33,10 @@ module ArrayExt
     end
 
     def stddev
-      mean = sum / size.to_f
-      diffs = map {|n| n - mean }
-      sqdiffs = diffs.map {|n| n * n }
-      sqsum = sqdiffs.inject(0.0) {|s, n| s+n}
-      sqmean = sqsum / size.to_f
-      Math::sqrt(sqmean)
+      avg_cached = avg # prevent having to recompute it each time
+      squared_deviations = map {|n| (n - avg_cached) ** 2 }
+      variance = squared_deviations.avg
+      Math::sqrt(variance)
     end
 
     def sum
