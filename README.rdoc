@@ -3,6 +3,16 @@ RailsAnalyzer generates reports about requests processed by a Ruby on Rails serv
 
 == Recent changes
 
+=== Version 0.2.1
+Bugfixes:
+* HitStats reports were not generated. They are working again.
+* Array#median always returns a float to prevent integer math (lack of) rounding problems.
+Dependencies:
+* No longer rely on ActiveSupport. It was used for Array#sum and Array#group_by, which are now implemented in ArrayExt.
+Specs:
+* Parts of UrlHits and Entries got specs to help debugging the HitStats bug.
+* Added specs for all ArrayExt methods.
+
 === Version 0.2.0
 Split single-file script into one file per existing class.
 Introduced new classes to handle responsibilities that were not yet handled.
