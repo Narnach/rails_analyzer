@@ -1,6 +1,15 @@
 == RailsAnalyzer
 RailsAnalyzer generates reports about requests processed by a Ruby on Rails server.
 
+It analyzes the log files created by a Rails server. It can accept any number of files as its command line parameters. It defaults to use 'log/production.log' as its input when no filenames are provided.
+
+Two different reporting engines process the log files: 
+* TimeStats, which is concerned with *when* the request was made. It produces reports with the amount of hits recorded in the log file per time interval, and the relative amount of requests within a time interval. The relative interval simply lowers all hit counts until one hits zero. This makes it easy to filter out periodic requests.
+* HitStats, which is concerned with how *fast* the requests were handled. It produces reports with detailed time statistics for each request. It has two types of reports: with params and without params. Each type of report produces a number of files, each which is sorted by one of the following statistics for responses: fastest, slowest, sum, average, median, standard deviation and hit count.
+Both engines produce .txt files as their only output.
+* TimeStats produces log_times_*.txt and log_times_*_relative.txt output.
+* HitStats produces the other log_*.txt and log_*_with_params.txt files.
+
 == Recent changes
 
 === Version 0.2.1
