@@ -23,13 +23,21 @@ class HitStats
   end
 
   def save_reports
-    [:sum, :avg, :size, :median, :stddev].each do |sort_order|
-      File.open("log_%s.txt" % sort_order,"wb") {|file| file.puts hits_without_query.to_s(sort_order) }
-      File.open('log_%s_with_params.txt' % sort_order, 'wb') {|file| file.puts hits_with_query.to_s(sort_order)}
+    [:sum, :avg, :size, :median, :stddev, :min, :max].each do |sort_order|
+      File.open("log_%s.txt" % name_for_sort_order(sort_order),"wb") {|file| file.puts hits_without_query.to_s(sort_order) }
+      File.open('log_%s_with_params.txt' % name_for_sort_order(sort_order), 'wb') {|file| file.puts hits_with_query.to_s(sort_order)}
     end
   end
 
   protected
+
+  def name_for_sort_order(order)
+    {
+      :size => 'hits',
+      :min => 'low',
+      :max => 'high',
+    }[order] || order
+  end
 
   def parse_log(log)
     results = `grep "Completed" #{log}`
