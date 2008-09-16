@@ -39,7 +39,14 @@ describe ArrayExt::Stats do
   end
 
   describe '#stddev' do
-    it 'should return the standard deviation of all elements'
+    it 'should return the standard deviation of all elements' do
+      [3,7,7,19].stddev.should == 6
+
+      input = [1.1, 2, 3, 4, 5.5, 99.99]
+      mean = input.avg
+      stddev = Math::sqrt(input.map {|n| (n - mean) ** 2 }.avg)
+      input.stddev.should == stddev
+    end
   end
 
   describe '#sum' do
